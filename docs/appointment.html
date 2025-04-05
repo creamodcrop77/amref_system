@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="website icon" type="png" href="img/amreflogo.png">
+    <link rel="stylesheet" href="appointment.css">
+</head>
+
+<body>
+    <!-- navbar-1 -->
+    <div class="nav">
+
+        <a class="nav-a" href="./dashboard.html"><img src="img/home-icon-silhouette-svgrepo-com 1.png" width="58px"></a>
+        <a class="nav-a" href="./aboutus.html"><img src="img/Vector.png" width="50px"></a>
+        <a class="nav-a" href="#"><img src="img/find-on-map-svgrepo-com 1.png" width="55px"></a>
+        <a class="nav-a" href="./diet.html"><img src="img/diet-svgrepo-com 1.png" width="56px"></a>
+        <a class="nav-a" href="./index.html"><img src="img/logout-svgrepo-com 1.png" width="48px"></a>
+
+    </div>
+    <!-- navbar-2 -->
+    <nav class="navbar navbar-expand-lg sticky-top  container-fluid" style="background-color: #f0fbfc;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./index.html" style="padding-left: 2%;">
+                <img src="img/amreflogo.png" alt="Logo" width="100" height="100">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="navLinks">
+                    <li class="nav-item mx-3">
+                        <a class="nav-link fs-4" aria-current="page" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link fs-4" href="./diet.html">Diet</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link fs-4" href="./aboutus.html">About us</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link fs-4" href="./map.html">Location</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="./appointment.html">
+                    <button class="btn btn-outline-success btn-lg" type="submit">Book now</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- appointment -->
+
+    <h1 class="text-center primary display-5 heading">APPOINTMENT FORM</h1>
+    <div class="container page row">
+        <div class="container-fluid row">
+            <div class="container-fluid col-6">
+                <form id="book-form" class="p-3">
+                    <div class="form-group">
+                        <label for="Specialization">Doctor’s Specialization <span class="text-primary">*</span></label>
+                        <input type="text" class="form-control mb-3" id="Specialization">
+                    </div>
+                    <div class="form-group">
+                        <label for="Hospital">Hospital <span class="text-primary">*</span></label>
+                        <input type="text" class="form-control mb-3" id="Hospital">
+                    </div>
+                </form>
+            </div>
+            <div class="container calendar">
+                <div id="calPeriod">
+                    <input id="calBack" type="button" value="&lt;">
+                    <select id="calMonth"></select>
+                    <input type="number" id="calYear">
+                    <input id="calNext" type="button" value="&gt;">
+                </div>
+
+
+                <div id="calWrap"></div>
+
+
+                <dialog id="calForm">
+                    <form method="dialog">
+                        <div id="evtClose">X</div>
+                        <h2>CALENDAR EVENT</h2>
+                        <label>Date</label>
+                        <input type="text" id="evtDate" readonly>
+                        <label>Details</label>
+                        <textarea id="evtTxt" required></textarea>
+
+                        <input id="evtDel" type="button" value="Delete">
+                        <input id="evtSave" type="submit" value="Save">
+                    </form>
+                </dialog>
+            </div>
+        </div>
+        <div class="container-fulid  ips">
+            <div class="container-fluid">
+                <div class="container-fluid ">
+                    <button class="btn btn-primary btn-lg times t1"><input class="form-check-input me-3 "
+                            type="checkbox" value="" id="flexCheckDefault">10:00 AM</button>
+                </div>
+                <div class="container-fluid ">
+                    <button class="btn btn-primary btn-lg times t2"><input class="form-check-input me-3" type="checkbox"
+                            value="" id="flexCheckDefault">12:00 PM</button>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <button class="btn btn-primary btn-lg times t3"><input class="form-check-input me-3" type="checkbox"
+                            value="" id="flexCheckDefault">09:00 AM</button>
+                </div>
+                <div class="container-fluid">
+                    <button class="btn btn-primary btn-lg times t4"><input class="form-check-input me-3" type="checkbox"
+                            value="" id="flexCheckDefault">11:00 AM</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="container-fluid row mt-5">
+            <button class="btn btn-outline-success btn-lg sub mt-5 ms-5 submit">SUBMIT</button>
+
+        </div>
+
+    </div>
+
+    <!-- footer -->
+
+    <footer>
+        <div class="content-f">
+            <div class="left box-f">
+                <div class="upper">
+                    <div class="topic">About us</div>
+                    <p>Amref has a thorough telemedicine website created to give consumers easy access to high-quality
+                        healtcare services from the convenience of their homes.</p>
+                </div>
+                <div class="lower">
+                    <div class="topic">Contact us</div>
+                    <div class="phone">
+                        <a href="#"><i class="fas fa-phone-volume"></i>+2547454656664</a>
+                    </div>
+                    <div class="email">
+                        <a href="#"><i class="fas fa-envelope"></i>SteveAmani@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+            <div class="middle box-f">
+                <div class="topic">Our Services</div>
+                <div><a href="./diet.html">DIET</a></div>
+                <div><a href="./aboutus.html">About Us</a></div>
+                <div><a href="#">Nearby Pharmas</a></div>
+                <div><a href="./map.html"> Nearby Hospitals</a></div>
+                <div><a href="./index.html#faq">FAQ's</a></div>
+            </div>
+            <div class="right box-f">
+                <div class="topic">Subscribe us</div>
+                <form action="#">
+                    <input type="text" placeholder="Enter email address">
+                    <input type="submit" name="" value="Send">
+                    <div class="media-icons">
+                        <a href="#" class="me-3"><img src="img/icons8-facebook.svg"></a>
+                        <a href="#" class="me-3"><img src="img/icons8-twitter.svg"></a>
+                        <a href="#" class="me-4"><img src="img/icons8-instagram.svg"></a>
+                        <a href="#" class="me-4"><img src="img/icons8-github.svg"></a>
+                        <a href="#" class="me-3"><img src="img/icons8-linkedin-circled.svg"></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="bottom-f mt-4">
+            <p>Copyright © 2025 <a href="./index.html">Amref </a> All rights reserved</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="appointment.js"></script>
+</body>
+
+</html>
