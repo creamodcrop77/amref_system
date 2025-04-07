@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>Amref  - The online Telemedicine Solution </h1>
 <img src="docs/img/Screenshot 2023-04-18 at 7.13.46 PM.png">
 <h2> Overview 👨‍⚕️</h2>
@@ -83,3 +84,6 @@ Link : <h4><a href="https://docs.google.com/document/d/19_XXt9bEmvU4Wv9oCiRHygB8
     
     
   
+=======
+# amref_system
+>>>>>>> a74c3977987bd07d21a5a453c105af0167c7889a
