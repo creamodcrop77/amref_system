@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="website icon" type="image/png" href="img/amreflogo.png">
     <link rel="stylesheet" href="appointment.css">
+
     <style>
-        /* Basic styles for the calendar dialog (can move to appointment.css) */
+        /* Basic styles for the calendar dialog */
         #calForm h2 {
             margin-top: 0;
         }
@@ -95,20 +96,31 @@
             cursor: not-allowed;
         }
 
+        /* Styling for dynamically generated time slot buttons (Example) */
+        .time-slot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+        }
+
         .time-slot-btn {
             transition: all 0.2s;
         }
 
-        .time-slot-btn:hover:not(.disabled) {
+        .time-slot-btn:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-slot-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .button-container {
             display: flex;
             justify-content: center;
-            /* Center the button horizontally */
-            margin-top: 20px;
-            /* Add some space above the button */
+            margin-top: 30px;
         }
 
         /* Responsive adjustments */
@@ -145,21 +157,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-md-4" id="navLinks">
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fs-5" aria-current="page" href="./index.html">Home</a>
+                    <li class="nav-item mx-2"><a class="nav-link fs-5" aria-current="page" href="./index.html">Home</a>
                     </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fs-5" href="./diet.html">Diet</a>
+                    <li class="nav-item mx-2"><a class="nav-link fs-5" href="./diet.html">Diet</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fs-5 active" href="./appointment.html">Appointment</a>
                     </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fs-5 active" href="./appointment.html">Appointment</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fs-5" href="./aboutus.html">About us</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link fs-5" href="./map.html">Location</a>
-                    </li>
+                    <li class="nav-item mx-2"><a class="nav-link fs-5" href="./aboutus.html">About us</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fs-5" href="./map.html">Location</a></li>
                 </ul>
             </div>
         </div>
@@ -168,7 +172,9 @@
     <main class="container py-4">
         <h1 class="text-center text-primary display-5 heading mb-4">Book Your Appointment</h1>
 
-        <form id="appointmentForm">
+        <div id="formStatus" aria-live="polite"></div>
+
+        <form id="appointmentForm" novalidate>
             <div class="row g-4">
                 <section class="col-md-6">
                     <h2 class="fs-4 mb-3">Patient & Doctor Information</h2>
@@ -176,49 +182,65 @@
                     <div class="mb-3">
                         <label for="patientName" class="form-label">Full Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="patientName" placeholder="Enter your full name"
-                            required>
+                            required aria-describedby="patientNameError">
+                        <div id="patientNameError" class="invalid-feedback">Please enter your full name.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="patientEmail" class="form-label">Email Address <span
                                 class="text-danger">*</span></label>
                         <input type="email" class="form-control" id="patientEmail" placeholder="your.email@example.com"
-                            required>
+                            required aria-describedby="patientEmailError">
+                        <div id="patientEmailError" class="invalid-feedback">Please enter a valid email address.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="patientPhone" class="form-label">Phone Number <span
                                 class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" id="patientPhone" placeholder="e.g., 07xxxxxxxx"
-                            required>
+                        <input type="tel" class="form-control" id="patientPhone" placeholder="e.g., 07xxxxxxxx" required
+                            aria-describedby="patientPhoneError">
+                        <div id="patientPhoneError" class="invalid-feedback">Please enter a valid phone number.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="specialization" class="form-label">Doctor's Specialization <span
                                 class="text-danger">*</span></label>
-                        <select class="form-select" id="specialization" required>
+                        <select class="form-select" id="specialization" required aria-describedby="specializationError">
                             <option value="" selected disabled>-- Select Specialization --</option>
                             <option value="Cardiology">Cardiology</option>
                             <option value="Dermatology">Dermatology</option>
                             <option value="General Practice">General Practice</option>
                             <option value="Pediatrics">Pediatrics</option>
                         </select>
+                        <div id="specializationError" class="invalid-feedback">Please select a specialization.</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="hospital" class="form-label">Hospital / Clinic <span
                                 class="text-danger">*</span></label>
-                        <select class="form-select" id="hospital" required>
+                        <select class="form-select" id="hospital" required aria-describedby="hospitalError">
                             <option value="" selected disabled>-- Select Hospital/Clinic --</option>
                             <option value="Nairobi Hospital">Nairobi Hospital</option>
                             <option value="Aga Khan University Hospital">Aga Khan University Hospital</option>
                             <option value="MP Shah Hospital">MP Shah Hospital</option>
                         </select>
+                        <div id="hospitalError" class="invalid-feedback">Please select a hospital or clinic.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="appointmentReason" class="form-label">Reason for Appointment
-                            (Optional)</label>
+                        <label for="doctor" class="form-label">Select Doctor <span class="text-danger">*</span></label>
+                        <select class="form-select" id="doctor" required aria-describedby="doctorError">
+                            <option value="" selected>-- Select Doctor (after specialization/hospital) --</option>
+                            <option value="FarrukSudi">Dr. Milly Omanga</option>
+                            <option value="Milly">Dr Matology Namanga</option>
+                            <option value="General Practice">Dr. Kimani Mwangi</option>
+                            <option value="Pediatrics">Dr. Nuru Oganga</option>
+                        </select>
+                        <div id="doctorError" class="invalid-feedback">Please select a doctor.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="appointmentReason" class="form-label">Reason for Appointment (Optional)</label>
                         <textarea class="form-control" id="appointmentReason" rows="3"
                             placeholder="Briefly describe the reason for your visit"></textarea>
                     </div>
@@ -228,10 +250,9 @@
                     <div class="datetime-selection-container">
                         <h2 class="fs-4 mb-3">Appointment Date & Time</h2>
 
-                        <!-- Date Selection -->
-                        <div class="mb-4">
+                        <div class="mb-4 calendar-container">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h3 class="fs-5 mb-0">Select Date</h3>
+                                <h3 class="fs-5 mb-0">Select Date <span class="text-danger">*</span></h3>
                                 <div>
                                     <input id="calBack" type="button" class="btn btn-sm btn-outline-secondary"
                                         value="&lt;" aria-label="Previous Month">
@@ -242,14 +263,21 @@
 
                             <div class="row">
                                 <div class="col-md-7">
-                                    <div class="border rounded p-2 mb-3" id="calWrap">
+                                    <div class="border rounded p-2 mb-3" id="calWrap" aria-labelledby="calendar-heading"
+                                        role="application">
+                                        <div id="calendar-heading" class="visually-hidden">Appointment Date Selection
+                                            Calendar</div>
                                         Loading Calendar...
                                     </div>
+                                    <div id="calError" class="invalid-feedback d-block"></div> <input type="hidden"
+                                        id="selectedDate" name="selectedDate" required>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="mb-3">
-                                        <label for="customDate" class="form-label">Enter custom date</label>
-                                        <input type="date" class="form-control" id="customDate" required>
+                                        <label for="customDate" class="form-label">Selected date</label>
+                                        <input type="date" class="form-control" id="customDate"
+                                            aria-describedby="dateError" readonly>
+                                        <div id="dateError" class="invalid-feedback">Please select a valid date.</div>
                                     </div>
                                     <div class="d-none">
                                         <select id="calMonth" class="form-select form-select-sm mb-2"></select>
@@ -257,10 +285,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" id="selectedDate" name="selectedDate">
                         </div>
 
-                        <!-- Time Selection -->
                         <div class="mb-3">
                             <h3 class="fs-5 mb-3">Select Time</h3>
                             <div class="row">
@@ -291,25 +317,45 @@
                                 available time slot.</div>
                         </div>
                     </div>
-                </section>
+            </div>
+            </section>
             </div>
 
             <div class="button-container">
-                <button id="checkoutButton">Proceed to Checkout</button>
+                <button type="submit" id="checkoutButton" class="btn btn-primary btn-lg">Proceed to Checkout</button>
             </div>
+
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     const checkoutButton = document.getElementById('checkoutButton');
+                    const form = document.getElementById('appointmentForm');
 
-                    if (checkoutButton) {
-                        checkoutButton.addEventListener('click', function () {
-                            // Redirect to the checkout page
-                            window.location.href = './checkout.html';
+                    if (checkoutButton && form) {
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault(); // Prevent default form submission
+
+                            // Add JS Validation Logic Here
+                            // Check if form is valid (using Bootstrap's validation or custom logic)
+                            if (!form.checkValidity()) {
+                                // Handle invalid form case - Bootstrap 5 typically adds 'was-validated' class
+                                form.classList.add('was-validated');
+                                // Optionally display a general error message
+                                document.getElementById('formStatus').textContent = 'Please correct the errors before proceeding.';
+                                document.getElementById('formStatus').className = 'alert alert-danger';
+
+                            } else {
+                                // Form is valid, proceed to checkout
+                                console.log('Form is valid. Redirecting to checkout...');
+                                document.getElementById('formStatus').textContent = ''; // Clear any previous errors
+                                document.getElementById('formStatus').className = '';
+                                window.location.href = './checkout.html';
+                            }
                         });
                     } else {
-                        console.error("Checkout button with ID 'checkoutButton' not found.");
+                        console.error("Checkout button or Appointment form not found.");
                     }
                 });
+
             </script>
         </form>
 

@@ -8,9 +8,9 @@ class Dashboard {
   }
 }
 var num = 1;
-var date = "16/9/2023";
+var date = "16/4/2025";
 var time = "10:00 AM";
-var doctor = "Dr. Srikar";
+var doctor = "Dr. Farruk Sudi";
 var code = "3grk-ptk3-lv15";
 const ppage = document.referrer;
 const page = ppage.split("/").pop();
