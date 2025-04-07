@@ -101,9 +101,9 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
-    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
-    // Corrected Firebase configuration (aligned with signup)
+    // Firebase configuration (aligned with updated signup)
     const firebaseConfig = {
       apiKey: "AIzaSyCA8b3ITXyqdoPA7atyKoboLAOTVSaRvQk",
       authDomain: "pro-amref.firebaseapp.com",
@@ -167,10 +167,21 @@
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Check user data in Realtime Database (aligned with signup's 'user/' path)
+        // Check user data in Realtime Database (aligned with signup's 'user/<uid>' path)
         const userSnapshot = await get(ref(db, `user/${user.uid}`));
         if (!userSnapshot.exists()) {
-          throw new Error('User data not found in database');
+          // If user data is missing, optionally create it (for consistency with signup)
+          await set(ref(db, `user/${user.uid}`), {
+            Name: email.split('@')[0], // Default name from email
+            Email: email,
+            Phone: '',
+            Gender: ''
+          });
+          await set(ref(db, `people/${user.uid}`), {
+            Name: email.split('@')[0],
+            status: "true"
+          });
+          console.log('User data created for email/password sign-in');
         }
 
         showAlert('Sign in successful!', 'success');
@@ -215,11 +226,20 @@
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
-        // Optionally check or add user data to database (if not already done on signup)
+        // Check or add user data to database (aligned with signup)
         const userSnapshot = await get(ref(db, `user/${user.uid}`));
         if (!userSnapshot.exists()) {
-          // If Google sign-in user isn't in DB, you might want to add them (optional)
-          console.log('Google user not found in DB, consider adding logic here');
+          await set(ref(db, `user/${user.uid}`), {
+            Name: user.displayName || 'Google User',
+            Email: user.email,
+            Phone: '',
+            Gender: ''
+          });
+          await set(ref(db, `people/${user.uid}`), {
+            Name: user.displayName || 'Google User',
+            status: "true"
+          });
+          console.log('User data created for Google sign-in');
         }
 
         showAlert('Signed in with Google successfully!', 'success');
@@ -239,10 +259,20 @@
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
-        // Optionally check or add user data to database
+        // Check or add user data to database (aligned with signup)
         const userSnapshot = await get(ref(db, `user/${user.uid}`));
         if (!userSnapshot.exists()) {
-          console.log('Facebook user not found in DB, consider adding logic here');
+          await set(ref(db, `user/${user.uid}`), {
+            Name: user.displayName || 'Facebook User',
+            Email: user.email || '',
+            Phone: '',
+            Gender: ''
+          });
+          await set(ref(db, `people/${user.uid}`), {
+            Name: user.displayName || 'Facebook User',
+            status: "true"
+          });
+          console.log('User data created for Facebook sign-in');
         }
 
         showAlert('Signed in with Facebook successfully!', 'success');
