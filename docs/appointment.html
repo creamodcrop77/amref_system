@@ -229,13 +229,17 @@
 
                     <div class="mb-3">
                         <label for="doctor" class="form-label">Select Doctor <span class="text-danger">*</span></label>
-                        <select class="form-select" id="doctor" required aria-describedby="doctorError">
-                            <option value="" selected>-- Select Doctor (after specialization/hospital) --</option>
-                            <option value="FarrukSudi">Dr. Milly Omanga</option>
-                            <option value="Milly">Dr Matology Namanga</option>
-                            <option value="General Practice">Dr. Kimani Mwangi</option>
-                            <option value="Pediatrics">Dr. Nuru Oganga</option>
-                        </select>
+                        <div class="select-wrapper" style="position: relative;">
+                            <select class="form-select" id="doctor" required aria-describedby="doctorError">
+                                <option value="" selected disabled>-- Select Doctor (after specialization/hospital) --
+                                </option>
+                                <option value="cardio1">Dr. James Mwangi</option>
+                                <option value="cardio2">Dr. Susan Kamau</option>
+                                <option value="derm1">Dr. Fatma Ali</option>
+                                <option value="gp1">Dr. David Kimani</option>
+                            </select>
+                            <span id="doctorTick" class="success-tick" style="display: none;">&#x2713;</span>
+                        </div>
                         <div id="doctorError" class="invalid-feedback">Please select a doctor.</div>
                     </div>
 
@@ -326,6 +330,49 @@
             </div>
 
             <script>
+                // --- JavaScript (No changes needed from previous answer) ---
+
+                // Make sure you have these variables defined
+                const doctorSelect = document.getElementById('doctor');
+                const doctorTick = document.getElementById('doctorTick');
+                const doctorErrorDiv = document.getElementById('doctorError');
+
+                // Existing 'change' event listener for doctorSelect
+                doctorSelect.addEventListener('change', function () {
+                    const selectedValue = this.value;
+                    if (selectedValue && selectedValue !== "") {
+                        doctorTick.style.display = 'inline'; // Show tick
+                        doctorSelect.classList.remove('is-invalid');
+                        doctorSelect.classList.add('is-valid');
+                        if (doctorErrorDiv) { doctorErrorDiv.textContent = ''; }
+                        // ... populate time slots ...
+                    } else {
+                        doctorTick.style.display = 'none'; // Hide tick
+                        doctorSelect.classList.remove('is-valid');
+                        // ... reset time slots etc. ...
+                    }
+                });
+
+                // Existing form 'submit' event listener
+                form.addEventListener('submit', function (event) {
+                    // ... validation logic ...
+                    if (doctorSelect.disabled || !doctorSelect.value) {
+                        // ... handle invalid state (hide tick) ...
+                        doctorTick.style.display = 'none';
+                    } else {
+                        // ... handle valid state (show tick) ...
+                        doctorTick.style.display = 'inline';
+                    }
+                    // ... rest of submit logic ...
+                });
+
+                // Existing logic to reset visuals when spec/hospital changes
+                function resetDoctorSelectionVisuals() {
+                    // ... remove is-valid/is-invalid ...
+                    doctorTick.style.display = 'none'; // Hide tick on reset
+                    // ...
+                }
+                // ... listeners for spec/hospital changes calling resetDoctorSelectionVisuals ...
                 document.addEventListener('DOMContentLoaded', function () {
                     const checkoutButton = document.getElementById('checkoutButton');
                     const form = document.getElementById('appointmentForm');
