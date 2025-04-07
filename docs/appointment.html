@@ -103,6 +103,14 @@
             transform: translateY(-2px);
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center;
+            /* Center the button horizontally */
+            margin-top: 20px;
+            /* Add some space above the button */
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .calendar-container {
@@ -275,8 +283,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="customTime" class="form-label">Enter custom time</label>
-                                        <input type="time" class="form-control" id="customTime" placeholder="HH:MM"
-                                            required>
+                                        <input type="time" class="form-control" id="customTime" placeholder="HH:MM">
                                     </div>
                                 </div>
                             </div>
@@ -287,9 +294,23 @@
                 </section>
             </div>
 
-            <div class="text-center mt-4 pt-3 border-top">
-                <button type="submit" class="btn btn-success btn-lg px-5">Confirm Appointment</button>
+            <div class="button-container">
+                <button id="checkoutButton">Proceed to Checkout</button>
             </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const checkoutButton = document.getElementById('checkoutButton');
+
+                    if (checkoutButton) {
+                        checkoutButton.addEventListener('click', function () {
+                            // Redirect to the checkout page
+                            window.location.href = './checkout.html';
+                        });
+                    } else {
+                        console.error("Checkout button with ID 'checkoutButton' not found.");
+                    }
+                });
+            </script>
         </form>
 
         <dialog id="calForm">
