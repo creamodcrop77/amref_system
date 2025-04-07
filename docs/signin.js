@@ -14,8 +14,8 @@
 document.querySelector('.sign-in_btn').addEventListener('click', (e) => {
    e.preventDefault();
     
-   const email= document.querySelector('#email_field').value;
-    const pass = document.querySelector('#password_field').value;
+   const email= document.querySelector('#email').value;
+    const pass = document.querySelector('#password').value;
     
     if (email === '' || pass === '') {
        alert('Please Fill All The Fields','danger');
